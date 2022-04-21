@@ -11,11 +11,15 @@ export class ProposalGameController {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-  ) {}
+  ) { }
 
   @Post('/saveData')
   async saveData(@Body() dto: saveDataDto) {
-    return this.commandBus.execute(new saveDataCommand(dto.dataJson));
+    const resultSaveData = await this.commandBus.execute(new saveDataCommand(dto.dataJson));
+    if (resultSaveData) {
+      return this.commandBus.execute(new savePearDataCommand(dto.dataJson));
+    }
+    return resultSaveData
   }
 
   @Post('/savePearData')

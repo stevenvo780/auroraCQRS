@@ -28,14 +28,14 @@ export class saveDataHandler implements ICommandHandler<saveDataCommand> {
           `${node.host}:${node.port}/proposal/validateSaveData`,
           { dataJson: dataJson }
         );
-        if(data){
+        if (data) {
           peersValid++;
         }
       } catch (error) {
         console.log(error);
       }
     }
-    if(peersValid === peerNodes.length){
+    if (peersValid === peerNodes.length) {
       for (let index = 0; index < peerNodes.length; index++) {
         const node = peerNodes[index];
         console.log(`${node.host}:${node.port}/proposal/savePearData`);
@@ -44,13 +44,14 @@ export class saveDataHandler implements ICommandHandler<saveDataCommand> {
             `${node.host}:${node.port}/proposal/savePearData`,
             { dataJson: dataJson }
           );
-          if(data){
+          if (data) {
             peersValid++;
           }
         } catch (error) {
           console.log(error);
         }
       }
+      return true;
     }
     console.log(clc.greenBright('Solicitud para guardar dato terminada...'));
   }
