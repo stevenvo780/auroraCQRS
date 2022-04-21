@@ -18,11 +18,11 @@ export class saveDataHandler implements ICommandHandler<saveDataCommand> {
   ) { }
 
   async execute(command: saveDataCommand) {
+    console.log(clc.greenBright('Solicitud para guardar dato terminada...'));
     const { dataJson } = command;
     let peersValid = 0;
     const peerNodes = await this.peerNodesRepository.find();
-    for (let index = 0; index < peerNodes.length; index++) {
-      const node = peerNodes[index];
+    for (const node of peerNodes) {
       try {
         const { data } = await axios.post(
           `${node.host}:${node.port}/proposal/validateSaveData`,
@@ -36,8 +36,7 @@ export class saveDataHandler implements ICommandHandler<saveDataCommand> {
       }
     }
     if (peersValid === peerNodes.length) {
-      for (let index = 0; index < peerNodes.length; index++) {
-        const node = peerNodes[index];
+      for (const node of peerNodes) {;
         console.log(`${node.host}:${node.port}/proposal/savePearData`);
         try {
           const { data } = await axios.post(
@@ -45,14 +44,15 @@ export class saveDataHandler implements ICommandHandler<saveDataCommand> {
             { dataJson: dataJson }
           );
           if (data) {
-            peersValid++;
+            console.log(data);
           }
         } catch (error) {
           console.log(error);
         }
       }
       return true;
+    } else {
+      return false;
     }
-    console.log(clc.greenBright('Solicitud para guardar dato terminada...'));
   }
 }
