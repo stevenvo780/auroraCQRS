@@ -12,7 +12,7 @@ export class ProposalGameController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) { }
-
+  // Commands
   @Post('/saveData')
   async saveData(@Body() dto: saveDataDto) {
     const resultSaveData = await this.commandBus.execute(new saveDataCommand(dto.dataJson));
@@ -27,6 +27,7 @@ export class ProposalGameController {
     return this.commandBus.execute(new savePearDataCommand(dto.dataJson));
   }
 
+  // Query
   @Get()
   async findAll(): Promise<Proposal[]> {
     return this.queryBus.execute(new GetProposalQuery());

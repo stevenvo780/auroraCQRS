@@ -36,7 +36,7 @@ export class saveDataHandler implements ICommandHandler<saveDataCommand> {
       }
     }
     if (peersValid === peerNodes.length) {
-      for (const node of peerNodes) {;
+      for (const node of peerNodes) {
         console.log(`${node.host}:${node.port}/proposal/savePearData`);
         try {
           const { data } = await axios.post(
